@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "mnemosyne": {
+      "command": "python",
+      "args": [
+        "/ABSOLUTE/PATH/TO/mnemosyne/server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}
