@@ -52,9 +52,9 @@ pip install -r requirements.txt
 python server.py
 ```
 
-### Connect to Claude Desktop / Claude Code
+### Connect to a Client
 
-Add to your MCP config (`mcp.json` or `claude_desktop_config.json`):
+Mnemosyne is a standard MCP server — any MCP-compatible client can use it. Add the following to your client's MCP config, replacing the path with your actual install location:
 
 ```json
 {
@@ -69,6 +69,26 @@ Add to your MCP config (`mcp.json` or `claude_desktop_config.json`):
   }
 }
 ```
+
+#### Claude Desktop / Claude Code
+
+- **Claude Desktop**: Add the config above to `claude_desktop_config.json`
+- **Claude Code**: Add the config above to your project's `.mcp.json` or `~/.claude/mcp.json`
+
+#### LM Studio
+
+LM Studio has built-in MCP support (v0.3.17+). Open the **Program** tab in the sidebar, click **Install > Edit mcp.json**, and paste the config above. LM Studio will auto-load the server when you save. Make sure you're using a model that supports tool calling.
+
+See the [LM Studio MCP docs](https://lmstudio.ai/docs/app/mcp) for more details.
+
+#### Ollama
+
+Ollama doesn't natively support MCP, but you can connect it using a bridge:
+
+- **[mcp-client-for-ollama](https://github.com/jonigl/mcp-client-for-ollama)** — Interactive TUI that connects Ollama models to MCP servers. Install with `pip install mcp-client-for-ollama`, then point it at your config file.
+- **[ollama-mcp-bridge](https://github.com/jonigl/ollama-mcp-bridge)** — Extends the Ollama API with MCP tool integration, so existing Ollama-based apps gain tool calling transparently.
+
+Both approaches require an Ollama model with tool calling support (e.g., `llama3.2`, `qwen2.5`).
 
 ## Configuration
 
