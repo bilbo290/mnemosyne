@@ -4,27 +4,65 @@ A persistent memory server for AI writing assistants, built on the [Model Contex
 
 ## How It Works
 
-Mnemosyne stores three types of information per project:
+Mnemosyne stores four types of information per project:
 
 - **Content** — Sections of writing (chapters, posts, pages) stored with semantic embeddings for search and an output file for the full document.
+- **Elements** — Key beats and building blocks for each chapter (plot points, character moments, dialogue beats, conflicts, etc.). These are planned collaboratively before writing.
 - **Entities** — Reusable profiles for recurring things: characters, people, companies, places, concepts. Keeps descriptions consistent across content.
 - **References** — Facts, rules, and guidelines (style guides, canon rules, timelines, terminology) that should stay consistent everywhere.
 
 All data is stored locally using [ChromaDB](https://www.trychroma.com/) with sentence-transformer embeddings for semantic search.
 
+## Workflow
+
+Mnemosyne enforces a **plan-first** workflow. The AI never writes a scene unprompted:
+
+1. **Plan** — Call `suggest_elements` to gather context, then propose elements to the user.
+2. **Brainstorm** — Discuss and refine elements with `add_element`, `update_element`, `remove_element`. The user accepts or rejects each beat.
+3. **Write** — Only when the user says "go". The AI connects all accepted elements into a scene and writes to the canvas (or saves directly).
+4. **Save** — Content is saved to memory for future reference.
+
+## Canvas
+
+The canvas is an optional file where scenes are written instead of chat. This keeps conversations focused on planning and feedback, and helps manage context window limits on local models.
+
+| Tool | Description |
+|---|---|
+| `set_canvas` | Set the canvas file path for a project |
+| `write_to_canvas` | Write scene content to the canvas file |
+| `read_canvas` | Read canvas content (supports tail_lines to save context) |
+| `clear_canvas` | Clear the canvas for a new scene |
+
 ## Tools
+
+### Elements (Planning)
+
+| Tool | Description |
+|---|---|
+| `add_element` | Add a beat to a chapter (plot_point, character_moment, dialogue, etc.) |
+| `list_elements` | View all elements for a chapter with their status |
+| `update_element` | Accept/reject/refine an element |
+| `remove_element` | Drop an element from the plan |
+| `suggest_elements` | Gather context and brainstorm elements for a chapter |
+
+### Content
+
+| Tool | Description |
+|---|---|
+| `save_content` | Save or replace a content section |
+| `get_content` | Retrieve a section by label |
+| `search_memory` | Semantic search across content |
+| `outline` | View all sections in order with word counts |
+| `delete_content` | Remove a section |
+| `prepare_context` | Fetch latest content, entities, elements, and references in one call |
+
+### Entities & References
 
 | Tool | Description |
 |---|---|
 | `create_project` | Create a new writing project |
 | `list_projects` | List all projects |
 | `get_project_summary` | Get section/entity/reference counts |
-| `save_content` | Save or replace a content section |
-| `get_content` | Retrieve a section by label |
-| `search_memory` | Semantic search across content |
-| `outline` | View all sections in order with word counts |
-| `delete_content` | Remove a section |
-| `prepare_context` | Fetch latest content, entities, and references in one call |
 | `save_entity` | Store or update an entity profile |
 | `get_entity` / `list_entities` | Look up entities |
 | `save_reference` | Store a reference note |

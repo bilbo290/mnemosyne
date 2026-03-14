@@ -5,6 +5,8 @@ import tools.projects  # noqa: F401
 import tools.content  # noqa: F401
 import tools.entities  # noqa: F401
 import tools.references  # noqa: F401
+import tools.elements  # noqa: F401
+import tools.canvas  # noqa: F401
 
 if __name__ == "__main__":
     mcp.run()
